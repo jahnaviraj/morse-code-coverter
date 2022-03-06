@@ -1,51 +1,44 @@
 """ A TEXT BASED PYTHON PROGRAM TO CONVERT STRINGS INTO MORSE CODE"""
 """ALSO HAS DECRYPTION OF MORSE CODE"""
 
+import argparse
+
 #Morse code dict 
-MORSE_CODE_DICT = { 'A':'.-', 'B':'-...',
-                    'C':'-.-.', 'D':'-..', 'E':'.',
-                    'F':'..-.', 'G':'--.', 'H':'....',
-                    'I':'..', 'J':'.---', 'K':'-.-',
-                    'L':'.-..', 'M':'--', 'N':'-.',
-                    'O':'---', 'P':'.--.', 'Q':'--.-',
-                    'R':'.-.', 'S':'...', 'T':'-',
-                    'U':'..-', 'V':'...-', 'W':'.--',
-                    'X':'-..-', 'Y':'-.--', 'Z':'--..',
-                    '1':'.----', '2':'..---', '3':'...--',
-                    '4':'....-', '5':'.....', '6':'-....',
-                    '7':'--...', '8':'---..', '9':'----.',
-                    '0':'-----', ', ':'--..--', '.':'.-.-.-',
-                    '?':'..--..', '/':'-..-.', '-':'-....-',
-                    '(':'-.--.', ')':'-.--.-'}
+from data import MORSE_CODE_DICT
 
-
+def parse_args():
+    parser = argparse.ArgumentParser(description='Convert to morse code')
+    parser.add_argument('-t','--text', type=str, help='String to convert to morse', default=None)
+    parser.add_argument('-c','--code', type=str, help='Morse code to convert to string', default=None)
+    parser.add_argument('-m','--method', type=str, choices=['t2m', 'm2t'])
+    args = parser.parse_args()
+    if args.method== 't2m' and args.text:
+        convert_to_morse(args.text)
+    elif args.method == 'm2t' and args.code:
+        convert_to_text(args.code)
+        
 #Function to convert string into morse code 
-def convert_to_morse():
-    """Takes string input and returns morse code for it."""
-    #Take string input 
-    text = input("Enter the text you want to covert to Morse Code: ").upper()
+def convert_to_morse(text):
+    """Takes string arg and prints morse code for it."""
 
     morse_code = ''
-    for letter in text:
+    for letter in text.upper():
         #Adds morse code with 1 space for each letter
         if letter != ' ':   
             try:
                 morse_code += MORSE_CODE_DICT[letter] + ' '
             except KeyError:
                 print(f"{letter} does not have a morse code. Enter a string without {letter}.")
-                return convert_to_morse()
+                return convert_to_morse(input(f"Enter new text without {letter}: "))
         else:
             #Adds 2 spaces for a space in string
             morse_code += '  '
     #Returns final morse_code
-    return morse_code
-
+    print(f"The morse code for '{text}' is '{morse_code}'")
 
 #Function to convert morse into text
-def convert_to_text():
-    """Takes morse code input and return text string of the code."""
-    #Take morse input 
-    morse_code = input("Enter morse code to convert to string: ")
+def convert_to_text(morse_code):
+    """Takes morse code arg and prints text string of the code."""
 
     #Makes a dict for the morse codes
     morse_dict = morse_code.split(' ')
@@ -61,9 +54,9 @@ def convert_to_text():
                 if morse == input_code:
                     string += letter
     #Return the final string, since 2 spaces are used in morse to seperate words, replace double space with single space.
-    return string.capitalize().replace("  ", ' ')
+    final_string = string.capitalize().replace("  ", ' ')
+    print(f"The text for '{morse_code}' is '{final_string}'")
 
-
-
-
+if __name__ == "__main__":
+    parse_args()   
 
