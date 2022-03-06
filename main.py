@@ -20,8 +20,11 @@ MORSE_CODE_DICT = { 'A':'.-', 'B':'-...',
 
 
 #Function to convert string into morse code 
-def convert_to_morse(text):
-    """Takes string arg and returns morse code for it."""
+def convert_to_morse():
+    """Takes string input and returns morse code for it."""
+    #Take string input 
+    text = input("Enter the text you want to covert to Morse Code: ").upper()
+
     morse_code = ''
     for letter in text:
         #Adds morse code with 1 space for each letter
@@ -30,7 +33,7 @@ def convert_to_morse(text):
                 morse_code += MORSE_CODE_DICT[letter] + ' '
             except KeyError:
                 print(f"{letter} does not have a morse code. Enter a string without {letter}.")
-                return convert_to_morse(input('Enter new string: ').upper())
+                return convert_to_morse()
         else:
             #Adds 2 spaces for a space in string
             morse_code += '  '
@@ -39,8 +42,11 @@ def convert_to_morse(text):
 
 
 #Function to convert morse into text
-def convert_to_text(morse_code):
-    """Takes morse code arg and return text string of the code."""
+def convert_to_text():
+    """Takes morse code input and return text string of the code."""
+    #Take morse input 
+    morse_code = input("Enter morse code to convert to string: ")
+
     #Makes a dict for the morse codes
     morse_dict = morse_code.split(' ')
     string = ''
@@ -58,9 +64,6 @@ def convert_to_text(morse_code):
     return string.capitalize().replace("  ", ' ')
 
 
-#Take string input 
-text_to_convert = input("Enter the text you want to covert to Morse Code: ").upper()
 
-#Take morse input 
-morse_to_covert = input("Enter morse code to convert to string: ")
+
 
